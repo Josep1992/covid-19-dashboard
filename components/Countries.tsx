@@ -10,15 +10,15 @@ export const Countries: React.FunctionComponent = (): React.ReactElement => {
     return null
   }
 
-  const renderCountries = (countries) => {
+  const renderCountries = () => {
     return (
       <select value={country} onChange={(e) => setCountry(e.target.value)}>
-        {Object.keys(countries).map((key) => {
+        {Object.keys(data.countries).map((key) => {
           return <option key={key} value={key}>{key}</option>
         })}
       </select>
     )
   }
 
-  return renderCountries(data.countries)
+  return renderCountries()
 }

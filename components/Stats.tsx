@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { covid } from '../hooks/index';
+import { Box } from '../ui/components/index'
 import { isEmpty, dateFormat } from '../utils/index';
 
 export const Stats: React.FunctionComponent = (): React.ReactElement => {
@@ -9,12 +10,16 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
     return null
   }
 
+  const stats = [
+    {text:"Confirmed", value:data.confirmed.value},
+    {text:"Recovered", value:data.recovered.value},
+    {text:"Deaths", value:data.deaths.value}
+  ];
+
   return (
     <>
-    <h2>Updated at: {dateFormat(data.lastUpdated)}</h2>
-      <p>Confirmed: {data.confirmed.value}</p>
-      <p>Recovered: {data.recovered.value}</p>
-      <p>Deaths: {data.deaths.value}</p>
+      <h2>Updated at: {dateFormat(data.lastUpdated)}</h2>
+      {stats.map((stat) => <p>{`${stat.text}: ${stat.value}`}</p>)}
     </>
   )
 }
