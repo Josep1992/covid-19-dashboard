@@ -23,6 +23,17 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
     { text: "deaths", value: data.deaths.value, intent: "danger" }
   ];
 
+  const renderStats = () => {
+    return stats.map((stat) => (
+      <Box
+        key={stat.text}
+        intent={stat.intent}
+        title={capitalize(stat.text)}
+        subtitle={stat.value.toString()}
+      />
+    ))
+  }
+
   const containerStyles = css`
     margin-top: 60px;
     width: auto;
@@ -38,20 +49,10 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
       <Text variant="display3" css={{textAlign:'left'}}>
          🌎 COVID-19 DATA
       </Text>
-      <Text
-        css={{textAlign:'left',fontSize: '10px',marginLeft: "2px"}}
-      >
+      <Text css={{textAlign:'left',fontSize: '10px',marginLeft: "2px"}}>
         Updated At: {dateFormat(data.lastUpdated)}
       </Text>
-      {stats.map((stat) => (
-        <Box
-          // onClick={() => }
-          key={stat.text}
-          intent={stat.intent}
-          title={capitalize(stat.text)}
-          subtitle={stat.value.toString()}
-        />
-      ))}
+      {renderStats()}
     </Container>
   )
 }
