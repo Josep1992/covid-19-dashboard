@@ -1,5 +1,6 @@
-import {useLocation} from "./useLocation";
-import {useCovidData,endpoints} from "./useCovidData";
+import { useLocation } from "./useLocation";
+import { useCovidData, endpoints } from "./useCovidData";
+import { useMediaQuery } from "./useMediaQuery";
 
 const covid = {
   useData: useCovidData,
@@ -8,5 +9,6 @@ const covid = {
 
 export {
   useLocation,
+  useMediaQuery,
   covid
 }

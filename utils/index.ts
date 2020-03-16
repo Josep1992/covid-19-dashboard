@@ -6,10 +6,10 @@ const moment = extendMoment(Moment);
 type Formatter = "-" | "/";
 
 const dateFormat = (date, formatter: Formatter = undefined): string => {
-  const format:string = "MMM D h:mma";
+  const format: string = "MMM D h:mma";
 
   return moment(date).format(
-    formatter ? format.replace(/\s/g,formatter): format
+    formatter ? format.replace(/\s/g, formatter) : format
   );
 }
 
@@ -20,8 +20,27 @@ const isEmpty = (obj: object): boolean => {
   return !Object.keys(obj).length
 };
 
+const setPersistentState = (key: string, value: any): void => {
+  if (process.browser) {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }
+};
+
+const getPersistentState = (key: string): any => {
+  if (process.browser) {
+    return JSON.parse(window.localStorage.getItem(key));
+  }
+};
+
+const getENV = (): string => {
+  return process.env.NODE_ENV;
+};
+
 
 export {
+  setPersistentState,
+  getPersistentState,
+  getENV,
   moment,
   isEmpty,
   dateFormat
