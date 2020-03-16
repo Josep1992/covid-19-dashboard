@@ -9,10 +9,11 @@ interface Props {
   intent?: any
   subtitle?: string
   children?: React.ReactElement
+  onClick?: () => void
 }
 
 export const Box: React.FunctionComponent<Props> =
-  ({ title, subtitle, children, intent, titleColor }: Props): React.ReactElement => {
+  ({ title, subtitle, children, intent, titleColor,onClick }: Props): React.ReactElement => {
 
   const alertStyle = css`
     width: auto;
@@ -24,7 +25,17 @@ export const Box: React.FunctionComponent<Props> =
   `;
 
   return (
-    <Alert css={alertStyle} intent={intent} title={title} subtitle={subtitle}>
+    <Alert
+      css={alertStyle}
+      intent={intent}
+      title={title}
+      subtitle={subtitle}
+      onClick={() => {
+        if(onClick){
+          onClick()
+        }
+      }}
+    >
       {children}
     </Alert>
   );

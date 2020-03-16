@@ -14,7 +14,7 @@ const dateFormat = (date, formatter: Formatter = undefined): string => {
 }
 
 const isEmpty = (obj: object): boolean => {
-  if (typeof obj === "undefined" || obj === null) {
+  if (obj === undefined || obj === null) {
     return true;
   }
   return !Object.keys(obj).length
@@ -36,9 +36,15 @@ const getENV = (): string => {
   return process.env.NODE_ENV;
 };
 
+const capitalize = (str: string): string => {
+  const [first, ...rest] = str;
+  return first.toUpperCase().concat(rest.join(""))
+}
+
 
 export {
   setPersistentState,
+  capitalize,
   getPersistentState,
   getENV,
   moment,

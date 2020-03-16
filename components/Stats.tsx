@@ -2,22 +2,25 @@
 import * as React from "react";
 import { css, jsx } from "@emotion/core";
 import { covid } from '../hooks/index';
-import { Box } from '../ui/components/index'
-import { isEmpty, dateFormat } from '../utils/index';
-import { Container , Text, Skeleton } from 'sancho';
+import { Box,Modal } from '../ui/components/index'
+import { isEmpty, dateFormat,capitalize } from '../utils/index';
+import { Container , Text } from 'sancho';
 
 
 export const Stats: React.FunctionComponent = (): React.ReactElement => {
   const { data } = covid.useData(covid.endpoints.api);
 
   if (isEmpty(data) || data.success === false) {
-    return null
+    if (data && data.error) {
+      return <Text>{data.error.message}</Text>
+    }
+    return <Text>loading</Text>
   }
 
   const stats = [
-    { text: "Confirmed", value: data.confirmed.value, intent: "warning" },
-    { text: "Recovered", value: data.recovered.value, intent: "success" },
-    { text: "Deaths", value: data.deaths.value, intent: "danger" }
+    { text: "confirmed", value: data.confirmed.value, intent: "warning" },
+    { text: "recovered", value: data.recovered.value, intent: "success" },
+    { text: "deaths", value: data.deaths.value, intent: "danger" }
   ];
 
   const containerStyles = css`
@@ -42,10 +45,11 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
       </Text>
       {stats.map((stat) => (
         <Box
+          // onClick={() => }
           key={stat.text}
           intent={stat.intent}
-          title={stat.text}
-          subtitle={isEmpty(data) || data.success === false ? <Skeleton/> :stat.value.toString()}
+          title={capitalize(stat.text)}
+          subtitle={stat.value.toString()}
         />
       ))}
     </Container>
