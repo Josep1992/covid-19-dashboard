@@ -6,6 +6,15 @@ import { Box,Modal } from '../ui/components/index'
 import { isEmpty, dateFormat,capitalize } from '../utils/index';
 import { Container , Text } from 'sancho';
 
+const containerStyles = css`
+  margin-top: 60px;
+  width: auto;
+  display: flex;
+  flex-direction:column;
+  @media screen and (min-width:400px){
+    width: 400px
+  }
+`
 
 export const Stats: React.FunctionComponent = (): React.ReactElement => {
   const { data } = covid.useData(covid.endpoints.api);
@@ -17,40 +26,34 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
     return <Text>loading</Text>
   }
 
-  const stats = [
-    { text: "confirmed", value: data.confirmed.value, intent: "warning" },
-    { text: "recovered", value: data.recovered.value, intent: "success" },
-    { text: "deaths", value: data.deaths.value, intent: "danger" }
-  ];
-
   const renderStats = () => {
-    return stats.map((stat) => (
-      <Box
-        key={stat.text}
-        intent={stat.intent}
-        title={capitalize(stat.text)}
-        subtitle={stat.value.toString()}
-      />
-    ))
-  }
+    const stats = [
+      { text: "confirmed", value: data.confirmed.value, intent: "warning" },
+      { text: "recovered", value: data.recovered.value, intent: "success" },
+      { text: "deaths", value: data.deaths.value, intent: "danger" }
+    ];
 
-  const containerStyles = css`
-    margin-top: 60px;
-    width: auto;
-    display: flex;
-    flex-direction:column;
-    @media screen and (min-width:400px){
-      width: 400px
-    }
-  `
+    return (
+      <>
+        <Text css={{textAlign:'left',fontSize: '10px',marginLeft: "2px"}}>
+            Updated At: {dateFormat(data.lastUpdated)}
+        </Text>
+        {stats.map((stat) => (
+          <Box
+            key={stat.text}
+            intent={stat.intent}
+            title={capitalize(stat.text)}
+            subtitle={stat.value.toString()}
+          />
+        ))}
+      </>
+    )
+  }
 
   return (
     <Container css={containerStyles}>
       <Text variant="display3" css={{textAlign:'left'}}>
          🌎 COVID-19 DATA
-      </Text>
-      <Text css={{textAlign:'left',fontSize: '10px',marginLeft: "2px"}}>
-        Updated At: {dateFormat(data.lastUpdated)}
       </Text>
       {renderStats()}
     </Container>
