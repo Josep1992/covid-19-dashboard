@@ -6,7 +6,7 @@ const Home: React.FunctionComponent = (): React.ReactElement => {
     <>
       <Stats />
     </>
-  )
+  );
 }
 
 export default Home

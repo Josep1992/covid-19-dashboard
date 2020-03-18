@@ -6,7 +6,7 @@ export const Countries: React.FunctionComponent = (): React.ReactElement => {
   const { data } = covid.useData(covid.endpoints.countries);
   const [country, setCountry] = React.useState(undefined)
 
-  if (isEmpty(data) || data.success === false) {
+  if (isEmpty(data)) {
     return null
   }
 

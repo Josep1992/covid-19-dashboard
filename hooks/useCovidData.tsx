@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-unfetch';
 import * as React from 'react';
-import { isEmpty } from '../utils/index'
 
 export interface Covid {
   confirmed: Confirmed;
@@ -35,7 +34,9 @@ export const endpoints = {
 }
 
 export function useCovidData(path) {
-  const [data, setData] = React.useState<Covid | any>(undefined)
+  const [data, setData] = React.useState<Covid | any>(undefined);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<any>({});
 
   const fetchCovidData = async (): Promise<void> => {
     const request = await fetch(`${endpoints.main}${path}`);
@@ -44,21 +45,14 @@ export function useCovidData(path) {
         await request.json()
       );
     } catch (error) {
+
       console.error(
         error
       );
 
-      if (!data || isEmpty(data)) {
-        const data = {
-          success: false,
-          error: {
-            message: error.message
-          }
-        }
-
-        setData(data)
-      }
+      setError(error.message)
     }
+    setTimeout(() => setLoading(false), 1000)
   }
 
   React.useEffect(() => {
@@ -66,6 +60,8 @@ export function useCovidData(path) {
   }, [])
 
   return {
-    data
+    data,
+    loading,
+    error,
   }
 }

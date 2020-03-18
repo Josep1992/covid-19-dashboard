@@ -9,13 +9,13 @@ interface Props {
   intent?: any
   subtitle?: string
   children?: React.ReactElement
-  onClick?: () => void
+  onClick?: (args?) => void
 }
 
 export const Box: React.FunctionComponent<Props> =
-  ({ title, subtitle, children, intent, titleColor,onClick }: Props): React.ReactElement => {
+  ({ title, subtitle, children, intent, titleColor, onClick }: Props): React.ReactElement => {
 
-  const alertStyle = css`
+    const alertStyle = css`
     width: auto;
     background-color: #1A232A;
     margin: 5px;
@@ -24,19 +24,19 @@ export const Box: React.FunctionComponent<Props> =
     }
   `;
 
-  return (
-    <Alert
-      css={alertStyle}
-      intent={intent}
-      title={title}
-      subtitle={subtitle}
-      onClick={() => {
-        if(onClick){
-          onClick()
-        }
-      }}
-    >
-      {children}
-    </Alert>
-  );
-}
+    return (
+      <Alert
+        css={alertStyle}
+        intent={intent}
+        title={title}
+        subtitle={subtitle}
+        onClick={() => {
+          if (onClick) {
+            onClick()
+          }
+        }}
+      >
+        {children}
+      </Alert>
+    );
+  }
