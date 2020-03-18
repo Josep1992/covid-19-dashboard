@@ -34,9 +34,9 @@ export const endpoints = {
 }
 
 export function useCovidData(path) {
-  const [data, setData] = React.useState<Covid | any>(undefined);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<any>({});
+  const [data, setData] = React.useState<Covid | any>(undefined);
 
   const fetchCovidData = async (): Promise<void> => {
     const request = await fetch(`${endpoints.main}${path}`);
@@ -52,16 +52,19 @@ export function useCovidData(path) {
 
       setError(error.message)
     }
-    setTimeout(() => setLoading(false), 1000)
   }
 
   React.useEffect(() => {
     fetchCovidData()
   }, [])
 
+  React.useEffect(() => {
+    setLoading(false)
+  },[])
+
   return {
-    data,
     loading,
     error,
+    data,
   }
 }
