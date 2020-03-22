@@ -1,9 +1,9 @@
 import {Countries} from './Countries'
 import {Stats} from './Stats'
-import DataList from './DataList';
+import Page from './Page'
 
 export {
   Countries,
   Stats,
-  DataList
+  Page
 }

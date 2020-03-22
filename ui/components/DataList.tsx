@@ -71,7 +71,7 @@ const DataList = ({
           key={item.id} css={{margin: "10px"}}
         >
           <ListItem
-            onPress={() => onListItemClick(item)}
+            onPress={() => onListItemClick && onListItemClick(item)}
             primary={primary}
             secondary={secondary}
             contentBefore={contentBefore}
