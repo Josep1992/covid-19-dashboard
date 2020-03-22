@@ -7,6 +7,7 @@ import { isEmpty, dateFormat,capitalize } from '../utils/index';
 import { Container , Text , Spinner} from 'sancho';
 import { useRouter } from 'next/router'
 
+
 const containerStyles = css`
   margin-top: 60px;
   width: auto;

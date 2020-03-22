@@ -18,7 +18,6 @@ export interface Confirmed {
   value: number;
   detail: string;
 }
-
 export interface CountryDetail {
   pattern: string;
   example: string;
