@@ -3,7 +3,7 @@ import * as React from "react";
 import { css, jsx } from "@emotion/core";
 import { covid } from '../hooks/index';
 import { Box,Modal } from '../ui/components/index'
-import { isEmpty, dateFormat,capitalize } from '../utils/index';
+import { isEmpty, dateFormat,capitalize,formatNumber } from '../utils/index';
 import { Container , Text , Spinner} from 'sancho';
 import { useRouter } from 'next/router'
 
@@ -38,10 +38,13 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
           {stats.map((stat) => (
            <Box
               key={stat.text}
-              onClick={() => { push(`/${stat.text}`)}}
+              onClick={() => { push({
+                pathname : `/${stat.text}`,
+                query : {total: stat.value}
+              })}}
               intent={stat.intent}
               title={capitalize(stat.text)}
-              subtitle={stat.value.toString()}
+              subtitle={formatNumber(stat.value).toString()}
             />
           ))}
         </>
@@ -51,8 +54,8 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
 
   return (
     <Container css={containerStyles}>
-      <Text variant="display3" css={{textAlign:'left'}}>
-         🌎 COVID-19 DATA
+      <Text variant="display3" css={{textAlign:'center'}}>
+       🦠 COVID-19 Data
       </Text>
       {!isEmpty(error) && (
          <Box

@@ -3,11 +3,18 @@ import * as React from "react";
 import { css, jsx } from "@emotion/core";
 import { covid } from '../hooks/index';
 import {
-  IconButton, Container, IconArrowLeftCircle,Text, Badge, IconTrendingUp,IconTrendingDown,IconThumbsUp
+  IconButton,
+  Container,
+  IconArrowLeftCircle,
+  Text, Badge,
+  IconTrendingUp,
+  IconThumbsDown,
+  IconThumbsUp,
+  IconGlobe
 } from 'sancho'
 import { useRouter } from 'next/router'
 import { DataList } from "../ui/components/index";
-import { dateFormat} from '../utils/index';
+import { dateFormat,formatNumber} from '../utils/index';
 
 type Cases = "deaths" | "recovered" | "confirmed"
 
@@ -19,12 +26,12 @@ interface Props {
 
 const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): React.ReactElement => {
   const { data } = covid.useData(endpoint);
-  const { replace } = useRouter();
+  const { replace ,query:{total}} = useRouter();
 
   function getCaseIcon(value:string){
     const icons = {
       confirmed: IconTrendingUp,
-      deaths: IconTrendingDown,
+      deaths: IconThumbsDown,
       recovered: IconThumbsUp
     }
     return icons[value];
@@ -58,10 +65,19 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
         >
           <Text
             css={{textAlign: "center", textTransform:"uppercase"}}
-            variant={"display2"}
+            variant={"display3"}
           >
             {header}
           </Text>
+
+         <div css={{display:'flex',justifyContent: 'center'}}>
+          <Text css={{fontSize: '14px'}}>
+                Total <IconGlobe css={{
+                  position: "relative",
+                  top: "4px"}}
+                /> {formatNumber(total)}
+            </Text>
+         </div>
           <DataList
             data={data}
             fakeListItems={30}
@@ -80,7 +96,7 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
                    <div css={{display: "flex",justifyContent:"flex-end"}}>
                      {React.createElement(getCaseIcon(cases),{css:{marginRight: '8px'}})}
                       <Badge css={{backgroundColor:getBadgeColor(cases),borderRadius: "5px"}}>
-                        {item[cases]}
+                        {formatNumber(item[cases])}
                       </Badge>
                    </div>
                     <Text css={{ textAlign: 'left', fontSize: '10px', marginLeft: "2px" }}>

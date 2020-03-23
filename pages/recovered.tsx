@@ -6,7 +6,7 @@ const Recovered: React.FunctionComponent = (props): React.ReactElement => {
   return(
     <Page
       cases={"recovered"}
-      header={"RECOVERED CASES"}
+      header={"RECOVERED"}
       endpoint={covid.endpoints.recovered}
     />
   );

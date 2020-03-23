@@ -6,7 +6,7 @@ const Confirmed: React.FunctionComponent = (props): React.ReactElement => {
   return(
     <Page
       cases={"confirmed"}
-      header={"CONFIRMED CASES"}
+      header={"CONFIRMED"}
       endpoint={covid.endpoints.confirmed}
     />
   );

@@ -41,6 +41,10 @@ const capitalize = (str: string): string => {
   return first.toUpperCase().concat(rest.join(""))
 }
 
+const formatNumber = (value) => {
+  return Number(value).toLocaleString()
+}
+
 
 export {
   setPersistentState,
@@ -49,5 +53,6 @@ export {
   getENV,
   moment,
   isEmpty,
-  dateFormat
+  dateFormat,
+  formatNumber
 }
