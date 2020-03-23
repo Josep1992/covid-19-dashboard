@@ -44,17 +44,17 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
         <IconButton
           label={"back"}
           variant={"ghost"}
-          size="lg"
+          size={"lg"}
           icon={<IconArrowLeftCircle />}
           onClick={() => replace("/")}
         />
         <Container
-          css={{
-            width: "600px",
-            height:"800px",
-            // overflow: "auto",
-            // overflowY: "scroll"
-          }}
+          css={css`
+            width: auto;
+            @media screen and (min-width: 450px){
+              width: 600px;
+            }
+          `}
         >
           <Text
             css={{textAlign: "center", textTransform:"uppercase"}}
