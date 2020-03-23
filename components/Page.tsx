@@ -58,7 +58,7 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
         >
           <Text
             css={{textAlign: "center", textTransform:"uppercase"}}
-            variant={"display3"}
+            variant={"display2"}
           >
             {header}
           </Text>
@@ -66,7 +66,6 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
             data={data}
             fakeListItems={30}
             listItemRenderer={(item) => {
-              console.log(item);
               return {
                 listItemWrapper: true,
                 primary: item.provinceState,
@@ -85,7 +84,7 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
                       </Badge>
                    </div>
                     <Text css={{ textAlign: 'left', fontSize: '10px', marginLeft: "2px" }}>
-                      Updated At: {dateFormat(item.lastUpdated)}
+                     {dateFormat(item.lastUpdated)}
                     </Text>
                   </div>
                 )
