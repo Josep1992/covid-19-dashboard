@@ -51,8 +51,8 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
         <Container
           css={css`
             width: auto;
-            @media screen and (min-width: 450px){
-              width: 600px;
+            @media screen and (min-width: 600px){
+              width: 599px;
             }
           `}
         >
