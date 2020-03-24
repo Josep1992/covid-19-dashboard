@@ -17,6 +17,7 @@ interface Props {
   onListItemClick?: (item: any) => any;
   itemListRendererChildren?: (item) => React.ReactNode;
   fakeListItems?: number;
+  itemModifier?: (item: any) => void
 }
 
 const DataList = ({
@@ -25,6 +26,7 @@ const DataList = ({
   onListItemClick,
   itemListRendererChildren,
   fakeListItems,
+  itemModifier
 }: Props): JSX.Element | any => {
   const renderFakeListItems = (): React.ReactElement[] => {
     const fakeListArray = Array.from(
@@ -63,6 +65,12 @@ const DataList = ({
         contentAfter,
         listItemWrapper
       } = listItemRenderer(item);
+
+      if(itemModifier){
+        // This must run before we render the content
+        itemModifier(item)
+      }
+
       const Component = !listItemWrapper ? React.Fragment : Layer;
 
       return (

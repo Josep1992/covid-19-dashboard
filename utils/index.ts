@@ -1,5 +1,7 @@
 import * as Moment from 'moment';
 import { extendMoment } from "moment-range";
+import * as JsSearch from 'js-search';
+import * as uuid from 'uuid';
 
 const moment = extendMoment(Moment);
 
@@ -45,6 +47,25 @@ const formatNumber = (value) => {
   return Number(value).toLocaleString()
 }
 
+interface Search {
+  searchBy: string,
+  documents: object[],
+  index: string | string[]
+}
+
+const search = ({searchBy,documents,index}:Search) => {
+  const search = new JsSearch.Search(searchBy)
+  search.addDocuments(documents);
+
+  if (Array.isArray(index)) {
+    index.forEach((i) => search.addIndex(i))
+  } else {
+    search.addIndex(index);
+  }
+  return search;
+}
+
+const generateId = (): string => uuid.v4();
 
 export {
   setPersistentState,
@@ -54,5 +75,7 @@ export {
   moment,
   isEmpty,
   dateFormat,
-  formatNumber
+  formatNumber,
+  search,
+  generateId
 }

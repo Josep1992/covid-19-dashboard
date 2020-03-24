@@ -10,11 +10,13 @@ import {
   IconTrendingUp,
   IconThumbsDown,
   IconThumbsUp,
-  IconGlobe
+  IconGlobe,
+  ComboBox,
+  ComboBoxInput,
 } from 'sancho'
 import { useRouter } from 'next/router'
 import { DataList } from "../ui/components/index";
-import { dateFormat,formatNumber} from '../utils/index';
+import { dateFormat,formatNumber,generateId} from '../utils/index';
 
 type Cases = "deaths" | "recovered" | "confirmed"
 
@@ -27,6 +29,18 @@ interface Props {
 const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): React.ReactElement => {
   const { data } = covid.useData(endpoint);
   const { replace ,query:{total}} = useRouter();
+  const [_search,setSearch] = React.useState<string>('');
+  const [filter,setFilter] = React.useState(null);
+
+  React.useLayoutEffect(() => {
+    // setFilter(
+    //   search({
+    //     documents: data,
+    //     searchBy: "provinceState",
+    //     index: "id"
+    //   })
+    // )
+  });
 
   function getCaseIcon(value:string){
     const icons = {
@@ -70,7 +84,7 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
             {header}
           </Text>
 
-         <div css={{display:'flex',justifyContent: 'center'}}>
+         <div css={{display:'flex',justifyContent: 'center',marginBottom: '10px'}}>
           <Text css={{fontSize: '14px'}}>
                 Total <IconGlobe css={{
                   position: "relative",
@@ -78,7 +92,21 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
                 /> {formatNumber(total)}
             </Text>
          </div>
+         {/* <div css={{width: "450px",margin: "0 auto"}}>
+            <ComboBox
+                query={_search}
+                onQueryChange={v => setSearch(v)}
+              >
+              <ComboBoxInput
+                  aria-label="Query places"
+                  placeholder="Search for Providence or State"
+              />
+            </ComboBox>
+         </div> */}
           <DataList
+            itemModifier={(item) =>{
+              item.id = generateId(); // this id is for searching
+            }}
             data={data}
             fakeListItems={30}
             listItemRenderer={(item) => {
