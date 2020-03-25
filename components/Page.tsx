@@ -16,7 +16,6 @@ import {
 import { useRouter } from 'next/router'
 import { DataList } from "../ui/components/index";
 import { dateFormat,formatNumber,generateId,search} from '../utils/index';
-import debounce from "lodash.debounce";
 
 type Cases = "deaths" | "recovered" | "confirmed"
 
