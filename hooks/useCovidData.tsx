@@ -43,6 +43,7 @@ export function useCovidData(path) {
       setData(
         await request.json()
       );
+      setLoading(false)
     } catch (error) {
 
       console.error(
@@ -50,16 +51,13 @@ export function useCovidData(path) {
       );
 
       setError(error.message)
+      setLoading(false)
     }
   }
 
   React.useEffect(() => {
     fetchCovidData()
   }, [])
-
-  React.useEffect(() => {
-    setLoading(false)
-  },[])
 
   return {
     loading,

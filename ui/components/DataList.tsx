@@ -57,7 +57,7 @@ const DataList = ({
       return null;
     }
 
-    return data.map(item => {
+    return data.map((item, index) => {
       const {
         primary,
         secondary,
@@ -76,7 +76,7 @@ const DataList = ({
       return (
         <Component
           elevation={!listItemWrapper ? undefined: "sm"}
-          key={item.id} css={{margin: "10px"}}
+          key={!item.id ? index : item.id} css={{margin: "10px"}}
         >
           <ListItem
             onPress={() => onListItemClick && onListItemClick(item)}

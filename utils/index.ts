@@ -47,21 +47,30 @@ const formatNumber = (value) => {
   return Number(value).toLocaleString()
 }
 
+type Strategy =
+  "AllSubstringsIndexStrategy" |
+  "PrefixIndexStrategy"        |
+  "ExactWordIndexStrategy";
+
 interface Search {
   searchBy: string,
   documents: object[],
-  index: string | string[]
+  index: string | string[],
+  strategy: Strategy
 }
 
-const search = ({searchBy,documents,index}:Search) => {
+const search = ({searchBy,documents,index,strategy}:Search) => {
   const search = new JsSearch.Search(searchBy)
-  search.addDocuments(documents);
+
+  search.indexStrategy = new JsSearch[strategy]();
 
   if (Array.isArray(index)) {
     index.forEach((i) => search.addIndex(i))
   } else {
     search.addIndex(index);
   }
+
+  search.addDocuments(documents);
   return search;
 }
 

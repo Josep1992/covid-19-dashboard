@@ -13,8 +13,9 @@ const containerStyles = css`
   width: auto;
   display: flex;
   flex-direction:column;
-  @media screen and (min-width:400px){
-    width: 400px
+  padding: 0;
+  @media screen and (min-width:500px){
+    width: 499px
   }
 `
 
@@ -22,8 +23,7 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
   const { data,loading,error } = covid.useData(covid.endpoints.api);
   const { push } = useRouter();
 
-  const renderStats = () => {
-    if(data){
+  function renderStats() {
       const stats = [
         { text: "confirmed", value: data.confirmed.value, intent: "warning"  },
         { text: "recovered", value: data.recovered.value, intent: "success" },
@@ -37,6 +37,7 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
           </Text>
           {stats.map((stat) => (
            <Box
+              backgroundColor={"white"}
               key={stat.text}
               onClick={() => { push({
                 pathname : `/${stat.text}`,
@@ -49,7 +50,20 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
           ))}
         </>
       )
+  }
+
+  function render(){
+    if(isEmpty(data) || loading ){
+      return (
+          <Spinner
+            css={{marginTop: '10px'}}
+            center
+            size={"xl"}
+            label="Getting global data"
+        />
+      )
     }
+    return renderStats()
   }
 
   return (
@@ -59,19 +73,13 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
       </Text>
       {!isEmpty(error) && (
          <Box
+          backgroundColor={"white"}
           intent="danger"
           title="Error"
           subtitle={error}
         />
       )}
-      {loading ? (
-          <Spinner
-            css={{marginTop: '10px'}}
-            center
-            size={"xl"}
-            label="Getting global data"
-          />
-        ) :renderStats()}
+      {render()}
     </Container>
   )
 }

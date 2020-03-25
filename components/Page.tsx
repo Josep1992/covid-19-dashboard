@@ -8,15 +8,15 @@ import {
   IconArrowLeftCircle,
   Text, Badge,
   IconTrendingUp,
-  IconThumbsDown,
-  IconThumbsUp,
+  IconTrendingDown,
   IconGlobe,
   ComboBox,
   ComboBoxInput,
 } from 'sancho'
 import { useRouter } from 'next/router'
 import { DataList } from "../ui/components/index";
-import { dateFormat,formatNumber,generateId} from '../utils/index';
+import { dateFormat,formatNumber,generateId,search} from '../utils/index';
+import debounce from "lodash.debounce";
 
 type Cases = "deaths" | "recovered" | "confirmed"
 
@@ -28,25 +28,31 @@ interface Props {
 
 const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): React.ReactElement => {
   const { data } = covid.useData(endpoint);
+  const [rows,setRows] = React.useState(undefined);
   const { replace ,query:{total}} = useRouter();
   const [_search,setSearch] = React.useState<string>('');
   const [filter,setFilter] = React.useState(null);
 
-  React.useLayoutEffect(() => {
-    // setFilter(
-    //   search({
-    //     documents: data,
-    //     searchBy: "provinceState",
-    //     index: "id"
-    //   })
-    // )
-  });
+  React.useEffect(() => {
+    if(data && data.length){
+      setFilter(
+        search({
+          documents: data,
+          searchBy: "id",
+          index: ["countryRegion","provinceState"],
+          strategy: "AllSubstringsIndexStrategy",
+        })
+      )
+
+      setRows(data)
+    }
+  },[data]);
 
   function getCaseIcon(value:string){
     const icons = {
       confirmed: IconTrendingUp,
-      deaths: IconThumbsDown,
-      recovered: IconThumbsUp
+      deaths: IconTrendingDown,
+      recovered: IconTrendingUp
     }
     return icons[value];
   };
@@ -72,6 +78,7 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
         <Container
           css={css`
             width: auto;
+            padding: 0;
             @media screen and (min-width: 600px){
               width: 599px;
             }
@@ -92,49 +99,65 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
                 /> {formatNumber(total)}
             </Text>
          </div>
-         {/* <div css={{width: "450px",margin: "0 auto"}}>
+         <div css={{width: "auto",margin: "0 auto"}}>
             <ComboBox
                 query={_search}
-                onQueryChange={v => setSearch(v)}
+                onQueryChange={v => {
+                  let _rows = data;
+
+                  setSearch(v)
+
+                  if(v){
+                    _rows = filter.search(v.trim())
+                  }
+
+                  if(v.length > 1){
+                    setRows(_rows)
+                  }else{
+                    setRows(data)
+                  }
+                }}
               >
               <ComboBoxInput
                   aria-label="Query places"
-                  placeholder="Search for Providence or State"
+                  placeholder="Search by Providence or Region"
               />
             </ComboBox>
-         </div> */}
-          <DataList
-            itemModifier={(item) =>{
-              item.id = generateId(); // this id is for searching
-            }}
-            data={data}
-            fakeListItems={30}
-            listItemRenderer={(item) => {
-              return {
-                listItemWrapper: true,
-                primary: item.provinceState,
-                secondary: item.countryRegion,
-                contentBefore: (
-                  <Text>
-                    {item.iso3}
-                  </Text>
-                ),
-                contentAfter: (
-                  <div>
-                   <div css={{display: "flex",justifyContent:"flex-end"}}>
-                     {React.createElement(getCaseIcon(cases),{css:{marginRight: '8px'}})}
-                      <Badge css={{backgroundColor:getBadgeColor(cases),borderRadius: "5px"}}>
-                        {formatNumber(item[cases])}
-                      </Badge>
-                   </div>
-                    <Text css={{ textAlign: 'left', fontSize: '10px', marginLeft: "2px" }}>
-                     {dateFormat(item.lastUpdated)}
+         </div>
+          {React.useMemo(() => (
+            <DataList
+              itemModifier={(item) => {
+                item.id = generateId();
+              }}
+              data={rows}
+              fakeListItems={30}
+              listItemRenderer={(item) => {
+                return {
+                  listItemWrapper: true,
+                  primary: item.provinceState,
+                  secondary: item.countryRegion,
+                  contentBefore: (
+                    <Text>
+                      {item.iso3}
                     </Text>
-                  </div>
-                )
-              };
-            }}
+                  ),
+                  contentAfter: (
+                    <div>
+                    <div css={{display: "flex",justifyContent:"flex-end"}}>
+                      {React.createElement(getCaseIcon(cases),{css:{marginRight: '8px'}})}
+                        <Badge css={{backgroundColor:getBadgeColor(cases),borderRadius: "5px"}}>
+                          {formatNumber(item[cases])}
+                        </Badge>
+                    </div>
+                      <Text css={{ textAlign: 'left', fontSize: '10px', marginLeft: "2px" }}>
+                      {dateFormat(item.lastUpdated)}
+                      </Text>
+                    </div>
+                  )
+                };
+              }}
           />
+          ),[data,rows])}
         </Container>
       </>
   );
