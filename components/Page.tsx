@@ -67,7 +67,9 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
 
   return (
       <>
+      {/* THIS SHOULD BE MOVED FROM PAGE COMPONENT */}
         <IconButton
+          css={{marginTop: "40px"}}
           label={"back"}
           variant={"ghost"}
           size={"lg"}

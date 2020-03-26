@@ -4,7 +4,7 @@ import { Dialog } from "sancho";
 interface PropsModal {
   isOpen: boolean;
   title?: string;
-  mobile: boolean;
+  mobile?: boolean;
   onClose: () => void;
   children?: React.ReactNode;
 }
