@@ -4,6 +4,7 @@ import { css, jsx } from "@emotion/core";
 import { covid } from '../hooks/index';
 import { isEmpty, setPersistentState, getPersistentState } from '../utils/index';
 import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
 import { Button } from "sancho";
 
 interface Props {
@@ -44,6 +45,7 @@ export const Countries: React.FunctionComponent<Props> = (props: Props): React.R
       <div css={{ padding: "15px" }}>
         <Select
           isMulti
+          components={makeAnimated()}
           value={countries}
           options={options}
           closeMenuOnSelect={false}

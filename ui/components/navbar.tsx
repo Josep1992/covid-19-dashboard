@@ -3,7 +3,7 @@ import * as React from "react";
 import { css, jsx } from "@emotion/core";
 import { Navbar, IconSettings, Toolbar ,Button} from 'sancho';
 import {Countries} from "../../components/index";
-import {Modal} from "../../ui/components/index";
+import {Modal,Icon} from "../../ui/components/index";
 
 interface Props {
   background?: string,
@@ -30,7 +30,11 @@ const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): R
         position={!position ? "fixed" : position}
       >
         <Toolbar compressed>
-          <IconSettings onClick={() => setIsOpen(true)} />
+          <Icon
+            type={"faCog"}
+            size={"lg"}
+            onClick={() => setIsOpen(true)}
+          />
         </Toolbar>
       </Navbar>
     </>

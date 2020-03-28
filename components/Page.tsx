@@ -7,14 +7,12 @@ import {
   Container,
   IconArrowLeftCircle,
   Text, Badge,
-  IconTrendingUp,
-  IconTrendingDown,
   IconGlobe,
   ComboBox,
   ComboBoxInput,
 } from 'sancho'
 import { useRouter } from 'next/router'
-import { DataList } from "../ui/components/index";
+import { DataList,Icon } from "../ui/components/index";
 import { dateFormat,formatNumber,generateId,search} from '../utils/index';
 
 type Cases = "deaths" | "recovered" | "confirmed"
@@ -49,11 +47,11 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
 
   function getCaseIcon(value:string){
     const icons = {
-      confirmed: IconTrendingUp,
-      deaths: IconTrendingDown,
-      recovered: IconTrendingUp
+      confirmed: {type:'faVirus' ,size:"lg"},
+      deaths: {type: 'faSkull',size:"lg"},
+      recovered: {type:'faVirusSlash',size:"lg"},
     }
-    return icons[value];
+    return React.createElement(Icon,{...icons[value],style:{marginRight: '8px'}})
   };
 
   function getBadgeColor(value:string){
@@ -94,10 +92,11 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
 
          <div css={{display:'flex',justifyContent: 'center',marginBottom: '10px'}}>
           <Text css={{fontSize: '14px'}}>
-                Total <IconGlobe css={{
-                  position: "relative",
-                  top: "4px"}}
-                /> {formatNumber(total)}
+                Total
+                {" "}
+                <Icon type={"faGlobeAmericas"} size={"2x"}/>
+                {" "}
+              {formatNumber(total)}
             </Text>
          </div>
          <div css={{width: "auto",margin: "0 auto"}}>
@@ -145,7 +144,7 @@ const Page: React.FunctionComponent<Props> = ({endpoint,header,cases}: Props): R
                   contentAfter: (
                     <div>
                     <div css={{display: "flex",justifyContent:"flex-end"}}>
-                      {React.createElement(getCaseIcon(cases),{css:{marginRight: '8px'}})}
+                      {getCaseIcon(cases)}
                         <Badge css={{backgroundColor:getBadgeColor(cases),borderRadius: "5px"}}>
                           {formatNumber(item[cases])}
                         </Badge>

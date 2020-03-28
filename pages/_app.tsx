@@ -5,7 +5,7 @@ import { Bar } from "../ui/components/index";
 const App: React.FunctionComponent<AppProps> = ({ Component, pageProps }: AppProps): React.ReactElement => {
   return (
     <>
-      <Bar/>
+      {/* <Bar/> */}
       <Component {...pageProps} />
     </>
   )

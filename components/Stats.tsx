@@ -2,10 +2,11 @@
 import * as React from "react";
 import { css, jsx } from "@emotion/core";
 import { covid } from '../hooks/index';
-import { Box,Modal } from '../ui/components/index'
+import { Box,Icon } from '../ui/components/index'
 import { isEmpty, dateFormat,capitalize,formatNumber } from '../utils/index';
 import { Container , Text , Spinner} from 'sancho';
 import { useRouter } from 'next/router'
+
 
 
 const containerStyles = css`
@@ -69,7 +70,8 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Container css={containerStyles}>
       <Text variant="display3" css={{textAlign:'center'}}>
-       🦠 COVID-19 Data
+       <Icon type={"faVirus"}/>{" "}
+        COVID19 Data
       </Text>
       {!isEmpty(error) && (
          <Box

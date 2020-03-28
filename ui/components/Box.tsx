@@ -27,6 +27,10 @@ export const Box: React.FunctionComponent<Props> =
     width: auto;
     background-color: ${backgroundColor ? backgroundColor : "#1A232A"};
     margin: 5px;
+    &:hover{
+      cursor: pointer;
+      background-color: #F2F2F2;
+    }
     h6 {
       color: ${color ? color : "#1A232A"}
     }
