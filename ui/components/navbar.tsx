@@ -51,7 +51,12 @@ const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): R
             {isLight ? (
               <Icon size={"lg"} type={"faMoon"} onClick={() => setTheme('dark')} />
             ) : (
-                <Icon size={"lg"} type={"faSun"} onClick={() => setTheme('light')} inverse={!isLight} />
+                <Icon
+                  size={"lg"}
+                  type={"faSun"}
+                  inverse={!isLight}
+                  onClick={() => setTheme('light')}
+                />
               )
             }
           </div>
