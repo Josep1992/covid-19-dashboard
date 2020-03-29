@@ -75,7 +75,7 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
   return (
     <Container css={containerStyles}>
       <Text variant="display3" css={{ textAlign: 'center' }}>
-        <Icon type={"faVirus"} /> {" "}
+        <Icon type={"faLungsVirus"} /> {" "}
           Coronavirus Cases
       </Text>
       {!isEmpty(error) && (

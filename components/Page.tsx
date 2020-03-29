@@ -7,7 +7,6 @@ import {
   Container,
   IconArrowLeftCircle,
   Text, Badge,
-  IconGlobe,
   ComboBox,
   ComboBoxInput,
 } from 'sancho'
@@ -88,8 +87,8 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
         css={css`
             width: auto;
             padding: 0;
-            @media screen and (min-width: 600px){
-              width: 599px;
+            @media screen and (min-width: 800px){
+              width: 750px;
             }
           `}
       >
@@ -104,7 +103,9 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
             <Text css={{ fontSize: '14px' }}>
               Total
                   {" "}
-              <Icon type={"faGlobeAmericas"} size={"2x"} />
+              {isLight ? (
+                <Icon type={"faGlobeAmericas"} size={"2x"} />
+              ) : (<Icon type={"faGlobeEurope"} size={"2x"} />)}
               {" "}
               {formatNumber(total)}
             </Text>
