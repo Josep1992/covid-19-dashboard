@@ -23,8 +23,7 @@ const containerStyles = css`
 export const Stats: React.FunctionComponent = (): React.ReactElement => {
   const { data, loading, error } = covid.useData(covid.endpoints.api);
   const { push } = useRouter();
-  const { theme } = Theme.useThemeContext()
-  const isLight: boolean = theme.value === "light" ? true : false;
+  const { theme,isLight } = Theme.useThemeContext()
 
   function renderStats() {
     const stats = [

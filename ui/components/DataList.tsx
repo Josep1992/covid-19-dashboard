@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import * as React from "react";
 import { jsx, css } from "@emotion/core";
-import { List, ListItem, Container, Skeleton , Layer } from "sancho";
+import { List, ListItem, Container, Skeleton, Layer } from "sancho";
 
 interface ItemRenderer {
   primary?: any;
@@ -17,7 +17,8 @@ interface Props {
   onListItemClick?: (item: any) => any;
   itemListRendererChildren?: (item) => React.ReactNode;
   fakeListItems?: number;
-  itemModifier?: (item: any) => void
+  itemModifier?: (item: any) => void,
+  isLight?: boolean
 }
 
 const DataList = ({
@@ -26,7 +27,8 @@ const DataList = ({
   onListItemClick,
   itemListRendererChildren,
   fakeListItems,
-  itemModifier
+  itemModifier,
+  isLight
 }: Props): JSX.Element | any => {
   const renderFakeListItems = (): React.ReactElement[] => {
     const fakeListArray = Array.from(
@@ -66,19 +68,22 @@ const DataList = ({
         listItemWrapper
       } = listItemRenderer(item);
 
-      if(itemModifier){
+      if (itemModifier) {
         // This must run before we render the content
         itemModifier(item)
       }
 
-      const Component = !listItemWrapper ? React.Fragment : Layer;
+      const Component = !listItemWrapper
+        ? React.Fragment
+        : Layer;
 
       return (
         <Component
-          elevation={!listItemWrapper ? undefined: "sm"}
-          key={!item.id ? index : item.id} css={{margin: "10px"}}
+          {...(listItemWrapper !== undefined && { elevation: "sm" })}
+          key={!item.id ? index : item.id} css={{ margin: "10px" }}
         >
           <ListItem
+            {...(isLight !== undefined && !isLight && { css: { background: "#1A2329", borderRadius: "1rem" } })}
             onPress={() => onListItemClick && onListItemClick(item)}
             primary={primary}
             secondary={secondary}

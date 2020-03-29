@@ -13,8 +13,7 @@ interface Props {
 
 const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
-  const { setTheme, theme } = useThemeContext();
-  const isLight: boolean = theme.value === "light" ? true : false;
+  const { setTheme, theme,isLight } = useThemeContext();
 
   return (
     <>

@@ -14,6 +14,7 @@ import {
 import { useRouter } from 'next/router'
 import { DataList, Icon } from "../ui/components/index";
 import { dateFormat, formatNumber, generateId, search } from '../utils/index';
+import { useThemeContext } from "../context/theme";
 
 type Cases = "deaths" | "recovered" | "confirmed"
 
@@ -29,6 +30,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
   const { replace, query: { total } } = useRouter();
   const [_search, setSearch] = React.useState<string>('');
   const [filter, setFilter] = React.useState(null);
+  const { isLight } = useThemeContext();
 
   React.useEffect(() => {
     if (data && data.length) {
@@ -45,13 +47,21 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
     }
   }, [data]);
 
+  function getFontStyles(){
+    return {...(!isLight && { color: "white" } )}
+  }
+
   function getCaseIcon(value: string) {
     const icons = {
-      confirmed: { type: 'faVirus', size: "lg" },
-      deaths: { type: 'faSkull', size: "lg" },
-      recovered: { type: 'faVirusSlash', size: "lg" },
+      confirmed: { type: 'faVirus'},
+      deaths: { type: 'faSkull'},
+      recovered: { type: 'faVirusSlash'},
     }
-    return React.createElement(Icon, { ...icons[value], style: { marginRight: '8px' } })
+    return React.createElement(Icon, {
+        ...icons[value],
+        ...{size: "lg" ,inverse: !isLight},
+        style: { marginRight: '8px' }
+    })
   };
 
   function getBadgeColor(value: string) {
@@ -67,7 +77,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
     <>
       {/* THIS SHOULD BE MOVED FROM PAGE COMPONENT */}
       <IconButton
-        css={{ marginTop: "40px" }}
+        css={{ marginTop: "60px" }}
         label={"back"}
         variant={"ghost"}
         size={"lg"}
@@ -83,50 +93,52 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
             }
           `}
       >
-        <Text
-          css={{ textAlign: "center", textTransform: "uppercase" }}
-          variant={"display3"}
-        >
-          {header}
-        </Text>
-
-        <div css={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
-          <Text css={{ fontSize: '14px' }}>
-            Total
-                {" "}
-            <Icon type={"faGlobeAmericas"} size={"2x"} />
-            {" "}
-            {formatNumber(total)}
+        <div>
+          <Text
+            css={{ textAlign: "center", textTransform: "uppercase" }}
+            variant={"display3"}
+          >
+            {header}
           </Text>
-        </div>
-        <div css={{ width: "auto", margin: "0 auto" }}>
-          {rows && rows.length && (
-            <ComboBox
-              query={_search}
-              onQueryChange={v => {
-                let _rows = data;
+          <div css={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+            <Text css={{ fontSize: '14px' }}>
+              Total
+                  {" "}
+              <Icon type={"faGlobeAmericas"} size={"2x"} />
+              {" "}
+              {formatNumber(total)}
+            </Text>
+          </div>
+          <div css={{ width: "auto", margin: "0 auto" }}>
+          </div>
 
-                setSearch(v)
+          <ComboBox
+            query={_search}
+            onQueryChange={v => {
+              let _rows = data;
 
-                if (v) {
-                  _rows = filter.search(v.trim())
-                }
+              setSearch(v)
 
-                if (v.length > 1) {
-                  return setRows(_rows)
-                }
-                return setRows(data)
-              }}
-            >
-              <ComboBoxInput
-                aria-label="Query places"
-                placeholder="Search by Providence or Region"
-              />
-            </ComboBox>
-          )}
+              if (v) {
+                _rows = filter.search(v.trim())
+              }
+
+              if (v.length > 1) {
+                return setRows(_rows)
+              }
+              return setRows(data)
+            }}
+          >
+            <ComboBoxInput
+              aria-label="Query places"
+              placeholder="Search by Providence or Region"
+            />
+          </ComboBox>
+
         </div>
         {React.useMemo(() => (
           <DataList
+            isLight={isLight}
             itemModifier={(item) => {
               item.id = generateId();
             }}
@@ -135,22 +147,24 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
             listItemRenderer={(item) => {
               return {
                 listItemWrapper: true,
-                primary: item.provinceState,
-                secondary: item.countryRegion,
+                primary: <Text css={{...getFontStyles()}} >{item.provinceState}</Text>,
+                secondary: <Text css={{...getFontStyles()}}>{item.countryRegion}</Text>,
                 contentBefore: (
-                  <Text>
+                  <Text css={{...getFontStyles()}}>
                     {item.iso3}
                   </Text>
                 ),
                 contentAfter: (
                   <div>
-                    <div css={{ display: "flex", justifyContent: "flex-end" }}>
+                    <div css={{display: "flex", justifyContent: "flex-end" }}>
                       {getCaseIcon(cases)}
                       <Badge css={{ backgroundColor: getBadgeColor(cases), borderRadius: "5px" }}>
                         {formatNumber(item[cases])}
                       </Badge>
                     </div>
-                    <Text css={{ textAlign: 'left', fontSize: '10px', marginLeft: "2px" }}>
+                    <Text
+                      style={{...getFontStyles()}}
+                      css={{textAlign: 'left', fontSize: '10px', marginLeft: "2px"}}>
                       {dateFormat(item.lastUpdated)}
                     </Text>
                   </div>
@@ -158,7 +172,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
               };
             }}
           />
-        ), [data, rows])}
+        ), [data, rows, isLight])}
       </Container>
     </>
   );

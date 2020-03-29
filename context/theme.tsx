@@ -13,8 +13,11 @@ interface Theme {
 
 export type ThemeContextType = {
   theme: Theme
-  setTheme: (theme: scheme) => void
+  setTheme: (theme: scheme) => void,
+  isLight: boolean
 };
+
+// @dark Color for theme #161822
 
 
 const ThemeContext = React.createContext<Partial<ThemeContextType>>({});
@@ -34,7 +37,7 @@ export const ThemeProvider = ({ children }: Props): React.ReactElement => {
   },[theme])
 
   return (
-    <ThemeContext.Provider value={{setTheme, theme:{value:theme}}}>
+    <ThemeContext.Provider value={{setTheme, theme:{value:theme},isLight: theme === "light" ? true : false}}>
       {children}
     </ThemeContext.Provider>
   );
@@ -49,6 +52,7 @@ export const useThemeContext = (): ThemeContextType => {
 
   return {
     setTheme: context.setTheme,
-    theme: context.theme
+    theme: context.theme,
+    isLight: context.theme.value === "light" ? true : false
   }
 };
