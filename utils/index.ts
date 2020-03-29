@@ -34,6 +34,12 @@ const getPersistentState = (key: string): any => {
   }
 };
 
+const clearPersistentState = (key: string): void =>{
+  if (process.browser) {
+    localStorage.removeItem(key)
+  }
+}
+
 const getENV = (): string => {
   return process.env.NODE_ENV;
 };
@@ -78,6 +84,7 @@ const generateId = (): string => uuid.v4();
 
 export {
   setPersistentState,
+  clearPersistentState,
   capitalize,
   getPersistentState,
   getENV,

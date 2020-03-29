@@ -2,13 +2,14 @@
 import * as React from "react";
 import { css, jsx } from "@emotion/core";
 import { covid } from '../hooks/index';
-import { isEmpty, setPersistentState, getPersistentState } from '../utils/index';
+import { isEmpty, setPersistentState, getPersistentState,clearPersistentState } from '../utils/index';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { Button } from "sancho";
 
 interface Props {
   onClose?: () => void
+  reload?: boolean
 }
 
 export const Countries: React.FunctionComponent<Props> = (props: Props): React.ReactElement => {
@@ -65,12 +66,17 @@ export const Countries: React.FunctionComponent<Props> = (props: Props): React.R
             css={{ marginRight: "5px" }}
             intent="danger"
             onClick={() => {
-              if (process.browser) {
-                localStorage.clear();
-              }
+              clearPersistentState(
+                'countries'
+              )
 
               if (props.onClose) {
                 props.onClose();
+              }
+
+              if(props.reload){
+                process.browser
+                  && window.location.reload()
               }
             }}
           >
@@ -85,6 +91,11 @@ export const Countries: React.FunctionComponent<Props> = (props: Props): React.R
               );
               if (props.onClose) {
                 props.onClose()
+              }
+
+              if(props.reload){
+                process.browser
+                  && window.location.reload()
               }
             }}>
             Save

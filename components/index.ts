@@ -5,5 +5,5 @@ import Page from './Page'
 export {
   Countries,
   Stats,
-  Page
+  Page,
 }

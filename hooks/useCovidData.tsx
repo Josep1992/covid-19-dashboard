@@ -55,6 +55,11 @@ export function useCovidData(path) {
     }
   }
 
+  async function covidPromise(path:string): Promise<any>{
+    const request = await fetch(`${endpoints.main}${path}`);
+    return await request.json();
+  }
+
   React.useEffect(() => {
     fetchCovidData()
   }, [])
@@ -63,5 +68,6 @@ export function useCovidData(path) {
     loading,
     error,
     data,
+    covidPromise
   }
 }

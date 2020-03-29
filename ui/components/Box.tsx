@@ -12,6 +12,7 @@ interface Props {
   onClick?: (args?) => void
   backgroundColor?: string
   theme?: string
+  cursor?: boolean
 }
 
 export const Box: React.FunctionComponent<Props> =
@@ -22,7 +23,8 @@ export const Box: React.FunctionComponent<Props> =
     color,
     onClick,
     backgroundColor,
-    theme
+    theme,
+    cursor
   }: Props): React.ReactElement => {
 
     const alertStyle = css`
@@ -30,8 +32,8 @@ export const Box: React.FunctionComponent<Props> =
     background-color: ${backgroundColor ? backgroundColor : "#1A232A"};
     margin: 5px;
     &:hover{
-      cursor: pointer;
-      background-color: ${theme === "light" ? "#F2F2F2" : "#3C4146" };
+      cursor: ${cursor === false ? "auto" : "pointer"};
+      background-color: ${theme  === "light" ? "#F2F2F2" : "#3C4146" };
     }
     h6 {
       color: ${color ? color : "#1A232A"}

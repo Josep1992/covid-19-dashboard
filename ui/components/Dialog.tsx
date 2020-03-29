@@ -1,5 +1,8 @@
+/* @jsx jsx */
 import * as React from "react";
+import { css, jsx } from "@emotion/core";
 import { Dialog } from "sancho";
+import { useThemeContext } from "../../context/theme";
 
 interface PropsModal {
   isOpen: boolean;
@@ -16,8 +19,12 @@ export const Modal = ({
   onClose,
   children
 }: PropsModal): React.ReactElement => {
+  const { isLight } = useThemeContext();
+  const colorScheme: string = "#1A232A"
+
   return (
     <Dialog
+      {...(!isLight && { style: { color: colorScheme, backgroundColor: colorScheme } })}
       mobileFullscreen={mobile}
       isOpen={isOpen}
       onRequestClose={onClose}
