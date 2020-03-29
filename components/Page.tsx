@@ -12,7 +12,7 @@ import {
 } from 'sancho'
 import { useRouter } from 'next/router'
 import { DataList, Icon } from "../ui/components/index";
-import { dateFormat, formatNumber, generateId, search } from '../utils/index';
+import { dateFormat, formatNumber, generateId, search, isEmpty } from '../utils/index';
 import { useThemeContext } from "../context/theme";
 
 type Cases = "deaths" | "recovered" | "confirmed"
@@ -46,20 +46,20 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
     }
   }, [data]);
 
-  function getFontStyles(){
-    return {...(!isLight && { color: "white" } )}
+  function getFontStyles() {
+    return { ...(!isLight && { color: "white" }) }
   }
 
   function getCaseIcon(value: string) {
     const icons = {
-      confirmed: { type: 'faVirus'},
-      deaths: { type: 'faSkull'},
-      recovered: { type: 'faVirusSlash'},
+      confirmed: { type: 'faVirus' },
+      deaths: { type: 'faSkull' },
+      recovered: { type: 'faVirusSlash' },
     }
     return React.createElement(Icon, {
-        ...icons[value],
-        ...{size: "lg" ,inverse: !isLight},
-        style: { marginRight: '8px' }
+      ...icons[value],
+      ...{ size: "lg", inverse: !isLight },
+      style: { marginRight: '8px' }
     })
   };
 
@@ -114,6 +114,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
           </div>
 
           <ComboBox
+            {...(!rows || isEmpty(rows) && { css: { pointerEvent: 'none' } })}
             query={_search}
             onQueryChange={v => {
               let _rows = data;
@@ -148,24 +149,24 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
             listItemRenderer={(item) => {
               return {
                 listItemWrapper: true,
-                primary: <Text css={{...getFontStyles()}} >{item.provinceState}</Text>,
-                secondary: <Text css={{...getFontStyles()}}>{item.countryRegion}</Text>,
+                primary: <Text css={{ ...getFontStyles() }} >{item.provinceState}</Text>,
+                secondary: <Text css={{ ...getFontStyles() }}>{item.countryRegion}</Text>,
                 contentBefore: (
-                  <Text css={{...getFontStyles()}}>
+                  <Text css={{ ...getFontStyles() }}>
                     {item.iso3}
                   </Text>
                 ),
                 contentAfter: (
                   <div>
-                    <div css={{display: "flex", justifyContent: "flex-end" }}>
+                    <div css={{ display: "flex", justifyContent: "flex-end" }}>
                       {getCaseIcon(cases)}
                       <Badge css={{ backgroundColor: getBadgeColor(cases), borderRadius: "5px" }}>
                         {formatNumber(item[cases])}
                       </Badge>
                     </div>
                     <Text
-                      style={{...getFontStyles()}}
-                      css={{textAlign: 'left', fontSize: '10px', marginLeft: "2px"}}>
+                      style={{ ...getFontStyles() }}
+                      css={{ textAlign: 'left', fontSize: '10px', marginLeft: "2px" }}>
                       {dateFormat(item.lastUpdated)}
                     </Text>
                   </div>
