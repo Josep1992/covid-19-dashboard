@@ -11,9 +11,15 @@ interface Props {
   position?: any
 }
 
+const hover = css`
+  &:hover{
+    cursor:pointer
+  }
+`
+
 const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
-  const { setTheme, theme,isLight } = useThemeContext();
+  const { setTheme, theme, isLight } = useThemeContext();
 
   return (
     <>
@@ -32,18 +38,18 @@ const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): R
         }}
         position={!position ? "fixed" : position}
       >
-        <Toolbar compressed css={{justifyContent:"space-between"}}>
+        <Toolbar compressed css={{ justifyContent: "space-between" }}>
           {/* <Icon
             type={"faCog"}
             size={"lg"}
             onClick={() => setIsOpen(true)}
             inverse={!isLight}
           /> */}
-          <div>
+          <div css={hover}>
             {theme.value === "light" ? (
               <Icon size={"lg"} type={"faMoon"} onClick={() => setTheme('dark')} />
             ) : (
-                <Icon size={"lg"} type={"faSun"} onClick={() => setTheme('light')} inverse={!isLight}/>
+                <Icon size={"lg"} type={"faSun"} onClick={() => setTheme('light')} inverse={!isLight} />
               )
             }
           </div>
