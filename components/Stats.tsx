@@ -134,7 +134,7 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
 
     return (
       <Text
-        css={{marginTop: '10px'}}
+        css={{marginTop: '10px',textAlign: 'center'}}
         variant={"lead"}>
         Click on the
         {" "}

@@ -45,6 +45,8 @@ export const Countries: React.FunctionComponent<Props> = (props: Props): React.R
     return (
       <div css={{ padding: "15px" }}>
         <Select
+          placeholder={"Select a country"}
+          isLoading={isEmpty(data)}
           isMulti
           components={makeAnimated()}
           value={countries}
