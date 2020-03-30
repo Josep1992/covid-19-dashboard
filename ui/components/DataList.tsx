@@ -83,7 +83,7 @@ const DataList = ({
           key={!item.id ? index : item.id} css={{ margin: "10px" }}
         >
           <ListItem
-            {...(isLight !== undefined && !isLight && { css: { background: "#1A2329", borderRadius: "1rem" } })}
+            {...(isLight !== undefined && !isLight && { css: { background: "#121212", borderRadius: "1rem" } })}
             onPress={() => onListItemClick && onListItemClick(item)}
             primary={primary}
             secondary={secondary}

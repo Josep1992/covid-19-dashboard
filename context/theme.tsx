@@ -11,10 +11,16 @@ interface Theme {
   value: scheme
 }
 
+interface Colors {
+  light: string,
+  dark: string
+}
+
 export type ThemeContextType = {
   theme: Theme
   setTheme: (theme: scheme) => void,
-  isLight: boolean
+  isLight: boolean,
+  colors: Colors
 };
 
 // @dark Color for theme #161822
@@ -27,17 +33,25 @@ export const ThemeProvider = ({ children }: Props): React.ReactElement => {
 
   React.useEffect(() => {
     const state = getPersistentState("theme");
-    if(state){
+    if (state) {
       setTheme(state);
     }
-  },[])
+  }, [])
 
   React.useEffect(() => {
-    setPersistentState("theme",theme)
-  },[theme])
+    setPersistentState("theme", theme)
+  }, [theme])
 
   return (
-    <ThemeContext.Provider value={{setTheme, theme:{value:theme},isLight: theme === "light" ? true : false}}>
+    <ThemeContext.Provider value={{
+      setTheme,
+      theme: { value: theme },
+      isLight: theme === "light" ? true : false,
+      colors:{
+        dark:"#121212",
+        light: "rgba(100%, 100%, 100%,87%)"
+      }
+    }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -53,6 +67,10 @@ export const useThemeContext = (): ThemeContextType => {
   return {
     setTheme: context.setTheme,
     theme: context.theme,
-    isLight: context.theme.value === "light" ? true : false
+    isLight: context.theme.value === "light" ? true : false,
+    colors: {
+      dark: "#121212",
+      light: "rgba(100%, 100%, 100%,87%)"
+    }
   }
 };

@@ -1,7 +1,7 @@
 /* @jsx jsx */
 import * as React from "react";
 import { css, jsx } from "@emotion/core";
-import { Navbar, Toolbar } from 'sancho';
+import { Navbar, Toolbar, Text } from 'sancho';
 import { Countries } from "../../components/index";
 import { Modal, Icon } from "../../ui/components/index";
 import { useThemeContext } from "../../context/theme";
@@ -19,8 +19,7 @@ const hover = css`
 
 const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
-  const { setTheme, isLight } = useThemeContext();
-  const dark: string = "#1A232A";
+  const { setTheme, isLight, colors: { dark, light } } = useThemeContext();
 
   return (
     <>
@@ -29,9 +28,12 @@ const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): R
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
-        <h2 style={{ color: isLight ? dark : "white", paddingLeft: "15px",paddingTop: "15px" }}>
+        <Text
+          variant={"h3"}
+          style={{ color: isLight ? dark : light, paddingLeft: "15px", paddingTop: "15px" }}
+        >
           Settings
-        </h2>
+        </Text>
         <Countries
           reload
           onClose={() => setIsOpen(false)}
@@ -39,8 +41,8 @@ const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): R
       </Modal>
       <Navbar
         css={{
-          backgroundColor: isLight ? "#F2F2F2" : dark,
-          boxShadow: 'none'
+          backgroundColor: isLight ? light : dark,
+          ...(!isLight && { boxShadow: "none" })
         }}
         position={!position ? "fixed" : position}
       >

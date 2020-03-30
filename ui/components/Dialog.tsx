@@ -19,12 +19,11 @@ export const Modal = ({
   onClose,
   children
 }: PropsModal): React.ReactElement => {
-  const { isLight } = useThemeContext();
-  const colorScheme: string = "#1A232A"
+  const { isLight,colors:{dark} } = useThemeContext();
 
   return (
     <Dialog
-      {...(!isLight && { style: { color: colorScheme, backgroundColor: colorScheme } })}
+      {...(!isLight && { style: { color: dark, backgroundColor: dark } })}
       mobileFullscreen={mobile}
       isOpen={isOpen}
       onRequestClose={onClose}

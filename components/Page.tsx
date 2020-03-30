@@ -29,7 +29,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
   const { replace, query: { total } } = useRouter();
   const [_search, setSearch] = React.useState<string>('');
   const [filter, setFilter] = React.useState(null);
-  const { isLight } = useThemeContext();
+  const { isLight,colors:{light} } = useThemeContext();
 
   React.useEffect(() => {
     if (data && data.length) {
@@ -47,7 +47,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
   }, [data]);
 
   function getFontStyles() {
-    return { ...(!isLight && { color: "white" }) }
+    return { ...(!isLight && { color: light }) }
   }
 
   function getCaseIcon(value: string) {

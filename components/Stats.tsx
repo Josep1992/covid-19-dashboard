@@ -28,7 +28,7 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
     covid.endpoints.api
   );
   const { push } = useRouter();
-  const { theme, isLight } = Theme.useThemeContext();
+  const { colors:{light,dark} } = Theme.useThemeContext();
   const [countries, setCountries] = React.useState<any[]>([]);
   const [countriesData, setCountriesData] = React.useState<any[]>([]);
 
@@ -87,9 +87,6 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
         </Text>
         {stats.map((stat) => (
           <Box
-            theme={theme.value}
-            color={isLight ? undefined : "white"}
-            backgroundColor={isLight ? "white" : undefined}
             key={stat.value}
             onClick={() => {
               push({
@@ -118,9 +115,6 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
             return (
               <Box
                 cursor={false}
-                theme={theme.value}
-                color={isLight ? undefined : "white"}
-                backgroundColor={isLight ? "white" : undefined}
                 key={country.id}
                 intent={getIntent("confirmed")}
                 title={country.label}
@@ -163,16 +157,13 @@ export const Stats: React.FunctionComponent = (): React.ReactElement => {
 
   return (
     <Container css={containerStyles}>
-      <div css={{ margin: "auto" }}>
+      <div css={{ margin: "auto",color: dark }}>
         <Text variant="display3" css={{ textAlign: 'center' }}>
           <Icon type={"faLungsVirus"} /> {" "}
           Coronavirus Cases
       </Text>
         {!isEmpty(error) && (
           <Box
-            theme={theme.value}
-            color={isLight ? undefined : "white"}
-            backgroundColor={isLight ? "white" : undefined}
             intent="danger"
             title="Error"
             subtitle={error}
