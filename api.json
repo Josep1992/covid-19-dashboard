@@ -1,4 +1,7 @@
 {
+  "other_resources":{
+    "chrismichael": "https://covid19-server.chrismichael.now.sh/api/v1"
+  },
   "confirmed": {
     "value": 162687,
     "detail": "https://covid19.mathdro.id/api/confirmed"
