@@ -58,9 +58,9 @@ type Strategy =
   "PrefixIndexStrategy"        |
   "ExactWordIndexStrategy";
 
-interface Search {
+export interface Search {
   searchBy: string,
-  documents: object[],
+  documents?: object[],
   index: string | string[],
   strategy: Strategy
 }

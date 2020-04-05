@@ -7,12 +7,10 @@ import {
   Container,
   IconArrowLeftCircle,
   Text, Badge,
-  ComboBox,
-  ComboBoxInput,
 } from 'sancho'
 import { useRouter } from 'next/router'
-import { DataList, Icon } from "../ui/components/index";
-import { dateFormat, formatNumber, generateId, search, isEmpty } from '../utils/index';
+import { DataList, Icon , Input} from "../ui/components/index";
+import { dateFormat, formatNumber, generateId} from '../utils/index';
 import { useThemeContext } from "../context/theme";
 
 type Cases = "deaths" | "recovered" | "confirmed"
@@ -27,21 +25,10 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
   const { data } = covid.useData(endpoint);
   const [rows, setRows] = React.useState(undefined);
   const { replace, query: { total } } = useRouter();
-  const [_search, setSearch] = React.useState<string>('');
-  const [filter, setFilter] = React.useState(null);
   const { isLight,colors:{light} } = useThemeContext();
 
   React.useEffect(() => {
     if (data && data.length) {
-      setFilter(
-        search({
-          documents: data,
-          searchBy: "id",
-          index: ["countryRegion", "provinceState"],
-          strategy: "AllSubstringsIndexStrategy",
-        })
-      )
-
       setRows(data)
     }
   }, [data]);
@@ -113,29 +100,18 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
           <div css={{ width: "auto", margin: "0 auto" }}>
           </div>
 
-          <ComboBox
-            {...(!rows || isEmpty(rows) && { css: { pointerEvent: 'none' } })}
-            query={_search}
-            onQueryChange={v => {
-              let _rows = data;
-
-              setSearch(v)
-
-              if (v) {
-                _rows = filter.search(v.trim())
-              }
-
-              if (v.length > 1) {
-                return setRows(_rows)
-              }
-              return setRows(data)
+          <Input
+            rows={data}
+            placeholder={"Search by Providence or Region"}
+            label={"Query places"}
+            onChange={(value) => {}}
+            getSearchResults={(result) => setRows(result)}
+            searcher={{
+              searchBy: "id",
+              index: ["countryRegion", "provinceState"],
+              strategy: "AllSubstringsIndexStrategy",
             }}
-          >
-            <ComboBoxInput
-              aria-label="Query places"
-              placeholder="Search by Providence or Region"
-            />
-          </ComboBox>
+          />
 
         </div>
         {React.useMemo(() => (
@@ -174,7 +150,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
               };
             }}
           />
-        ), [data, rows, isLight])}
+        ), [rows, isLight])}
       </Container>
     </>
   );
