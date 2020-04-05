@@ -65,14 +65,17 @@ export const Input: React.FunctionComponent<Props> = ({
       query={query}
       onQueryChange={v => {
         let _rows = rows;
+        const trigger = v.length > 1;
 
         setQuery(v)
 
-        if (v && v.length > 1) {
+        if (v && trigger) {
           _rows = filter.search(v)
         }
 
-        if(getSearchResults){
+        if(getSearchResults && trigger){
+          getSearchResults([]) // trigger loading state on <DataList/>
+
           debounce(function(){
             getSearchResults(
               _rows

@@ -95,10 +95,7 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
           placeholder={"Search by Providence or Region"}
           label={"Query places"}
           onChange={(value) => { }}
-          getSearchResults={(result) => {
-            console.log(result);
-            setRows(result)
-          }}
+          getSearchResults={(result) => setRows(result)}
           searcher={{
             searchBy: "lat",
             index: ["countryRegion", "provinceState","iso2","iso3"],
