@@ -10,5 +10,5 @@ const covid = {
 export {
   useLocation,
   useMediaQuery,
-  covid
+  covid,
 }

@@ -25,6 +25,22 @@ const theme = (theme) => {
   `;
 }
 
+// https://davidwalsh.name/javascript-debounce-function
+function debounce(func, wait, immediate?) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 export const Input: React.FunctionComponent<Props> = ({
   rows,placeholder,label,onChange,getSearchResults,searcher}:Props
 ) => {
@@ -52,14 +68,16 @@ export const Input: React.FunctionComponent<Props> = ({
 
         setQuery(v)
 
-        if (v) {
+        if (v && v.length > 1) {
           _rows = filter.search(v)
         }
 
         if(getSearchResults){
-          getSearchResults(
-            _rows
-          );
+          debounce(function(){
+            getSearchResults(
+              _rows
+            )
+          },250)()
         }
 
         onChange(v)

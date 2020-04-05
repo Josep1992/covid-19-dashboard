@@ -8,7 +8,7 @@ interface ItemRenderer {
   secondary?: any;
   contentBefore?: any;
   contentAfter?: any;
-  listItemWrapper?: boolean
+  listItemWrapper?: boolean,
 }
 
 interface Props {
@@ -18,7 +18,8 @@ interface Props {
   itemListRendererChildren?: (item) => React.ReactNode;
   fakeListItems?: number;
   itemModifier?: (item: any) => void,
-  isLight?: boolean
+  isLight?: boolean,
+  id?: string
 }
 
 const DataList = ({
@@ -28,7 +29,8 @@ const DataList = ({
   itemListRendererChildren,
   fakeListItems,
   itemModifier,
-  isLight
+  isLight,
+  id
 }: Props): JSX.Element | any => {
   const renderFakeListItems = (): React.ReactElement[] => {
     const fakeListArray = Array.from(
@@ -83,6 +85,7 @@ const DataList = ({
           key={!item.id ? index : item.id} css={{ margin: "10px" }}
         >
           <ListItem
+            {...(item.id && { id: item.id })}
             {...(isLight !== undefined && !isLight && { css: { background: "#121212", borderRadius: "1rem" } })}
             onPress={() => onListItemClick && onListItemClick(item)}
             primary={primary}
@@ -98,7 +101,7 @@ const DataList = ({
   };
   return (
     <Container css={{ margin: "15px 0" }}>
-      <List>
+      <List {...(id && { id })}>
         {!data || !data.length && fakeListItems
           ? renderFakeListItems()
           : renderListItems()}
