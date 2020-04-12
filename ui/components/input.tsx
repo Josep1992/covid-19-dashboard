@@ -65,15 +65,14 @@ export const Input: React.FunctionComponent<Props> = ({
       query={query}
       onQueryChange={v => {
         let _rows = rows;
-        const trigger = v.length > 1;
 
         setQuery(v)
 
-        if (v && trigger) {
+        if (v) {
           _rows = filter.search(v)
         }
 
-        if(getSearchResults && trigger){
+        if(getSearchResults){
           debounce(function(){
             getSearchResults(
               _rows
