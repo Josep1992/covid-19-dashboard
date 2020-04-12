@@ -67,20 +67,21 @@ export const Input: React.FunctionComponent<Props> = ({
         let _rows = rows;
 
         setQuery(v)
+        onChange(v)
 
         if (v) {
           _rows = filter.search(v)
         }
 
         if(getSearchResults){
+          getSearchResults([]),
+
           debounce(function(){
             getSearchResults(
               _rows
             )
           },300)()
         }
-
-        onChange(v)
       }}
     >
       <ComboBoxInput

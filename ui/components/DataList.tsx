@@ -19,7 +19,8 @@ interface Props {
   fakeListItems?: number;
   itemModifier?: (item: any) => void,
   isLight?: boolean,
-  id?: string
+  id?: string,
+  sortBy?: (a,b) => void
 }
 
 const DataList = ({
@@ -30,7 +31,7 @@ const DataList = ({
   fakeListItems,
   itemModifier,
   isLight,
-  id
+  id,sortBy
 }: Props): JSX.Element | any => {
   const renderFakeListItems = (): React.ReactElement[] => {
     const fakeListArray = Array.from(
@@ -56,12 +57,14 @@ const DataList = ({
     });
   };
 
-  const renderListItems = (): JSX.Element => {
+  const renderListItems = () => {
     if (!data.length && !fakeListItems) {
       return null;
     }
 
-    return data.map((item, index) => {
+    const _data = sortBy ? data.sort(sortBy) : data;
+
+    return _data.map((item, index) => {
       const {
         primary,
         secondary,

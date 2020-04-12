@@ -21,11 +21,18 @@ interface Props {
   header: string
 }
 
+const hover = css`
+  &:hover{
+    cursor:pointer
+  }
+`
+
 const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props): React.ReactElement => {
   const { data } = covid.useData(endpoint);
   const [rows, setRows] = React.useState(undefined);
   const { query: { total } } = useRouter();
   const { isLight, colors: { light } } = useThemeContext();
+  const [sort,setSort] = React.useState<string>("ASC");
 
   React.useEffect(() => {
     if (data && data.length) {
@@ -90,21 +97,45 @@ const Page: React.FunctionComponent<Props> = ({ endpoint, header, cases }: Props
         <div css={{ width: "auto", margin: "0 auto" }}>
         </div>
 
+      <div css={{
+        display: 'flex'
+      }}>
         <Input
-          rows={data}
-          placeholder={"Search by Providence or Region"}
-          label={"Query places"}
-          onChange={(value) => { }}
-          getSearchResults={(result) => setRows(result)}
-          searcher={{
-            searchBy: "lat",
-            index: ["countryRegion", "provinceState","iso2","iso3"],
-            strategy: 'AllSubstringsIndexStrategy',
-          }}
-        />
+            rows={data}
+            placeholder={"Search by Providence or Region"}
+            label={"Query places"}
+            onChange={(value) => { }}
+            getSearchResults={(result) => setRows(result)}
+            searcher={{
+              searchBy: "lat",
+              index: ["countryRegion", "provinceState","iso2","iso3"],
+              strategy: 'AllSubstringsIndexStrategy',
+            }}
+          />
+
+          <div css={hover}>
+            <Icon
+              style={{
+                marginTop: "5px",
+                marginLeft: "5px",
+              }}
+              type={sort === "ASC" ? "faSortNumericDown" : "faSortNumericUpAlt"}
+              size={"lg"}
+              onClick={() => setSort(sort === "ASC" ? "DES" : "ASC")}
+            />
+          </div>
+      </div>
 
       </div>
         <DataList
+          sortBy={(a,b) => {
+            const isASC:boolean = sort === "ASC";
+            if(isASC && a[cases] > b[cases]){
+              return -1
+            }else if(!isASC && a[cases] < b[cases]){
+              return -1
+            }
+          }}
           id={"data-list"}
           isLight={isLight}
           itemModifier={(item) => {
