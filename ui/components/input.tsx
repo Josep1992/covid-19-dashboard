@@ -74,13 +74,11 @@ export const Input: React.FunctionComponent<Props> = ({
         }
 
         if(getSearchResults && trigger){
-          getSearchResults([]) // trigger loading state on <DataList/>
-
           debounce(function(){
             getSearchResults(
               _rows
             )
-          },250)()
+          },300)()
         }
 
         onChange(v)
