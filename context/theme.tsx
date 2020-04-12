@@ -47,8 +47,8 @@ export const ThemeProvider = ({ children }: Props): React.ReactElement => {
       setTheme,
       theme: { value: theme },
       isLight: theme === "light" ? true : false,
-      colors:{
-        dark:"#121212",
+      colors: {
+        dark: "#121212",
         light: "rgba(100%, 100%, 100%,87%)"
       }
     }}>
@@ -74,3 +74,15 @@ export const useThemeContext = (): ThemeContextType => {
     }
   }
 };
+
+export const withTheme = (WrappedComponent): React.ReactElement => {
+  return (
+    <ThemeProvider>
+      <ThemeContext.Consumer>
+        {(context) => {
+          return <WrappedComponent {...context}/>
+        }}
+      </ThemeContext.Consumer>
+    </ThemeProvider>
+  )
+}

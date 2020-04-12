@@ -15,13 +15,13 @@ const App: React.FunctionComponent<AppProps> = ({ Component, pageProps }: AppPro
     <Context.ThemeProvider>
       <Bar />
       {pathname !== "/" && (
-          <IconButton
-            css={{ marginTop: "60px" }}
-            label={"back"}
-            variant={"ghost"}
-            size={"lg"}
-            icon={<IconArrowLeftCircle />}
-            onClick={() => replace("/")}
+        <IconButton
+          css={{ marginTop: "60px" }}
+          label={"back"}
+          variant={"ghost"}
+          size={"lg"}
+          icon={<IconArrowLeftCircle />}
+          onClick={() => replace("/")}
         />
       )}
       <Component {...pageProps} />
