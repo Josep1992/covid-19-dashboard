@@ -67,6 +67,7 @@ export const Input: React.FunctionComponent<Props> = ({
         let _rows = rows;
 
         setQuery(v)
+
         onChange(v)
 
         if (v) {
@@ -80,7 +81,7 @@ export const Input: React.FunctionComponent<Props> = ({
             getSearchResults(
               _rows
             )
-          },300)()
+          },!v ? 0 : 300)()
         }
       }}
     >
