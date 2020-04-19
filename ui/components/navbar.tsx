@@ -19,7 +19,7 @@ const hover = css`
 
 const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
-  const { setTheme, isLight, colors: { dark, light } } = useThemeContext();
+  const { setTheme, isLight, colors: { dark, light } ,icon} = useThemeContext();
 
   return (
     <>
@@ -56,17 +56,7 @@ const Bar: React.FunctionComponent<Props> = ({ background, position }: Props): R
             />
           </div>
           <div css={hover}>
-            {isLight ? (
-              <Icon size={"lg"} type={"faMoon"} onClick={() => setTheme('dark')} />
-            ) : (
-                <Icon
-                  size={"lg"}
-                  type={"faSun"}
-                  inverse={!isLight}
-                  onClick={() => setTheme('light')}
-                />
-              )
-            }
+            {icon}
           </div>
         </Toolbar>
       </Navbar>
